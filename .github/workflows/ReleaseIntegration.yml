@@ -1,5 +1,6 @@
 name: Release Workflow CI
-
+permissions:
+    contents: write
 on:
   push: 
 jobs:
