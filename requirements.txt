@@ -1,8 +1,14 @@
-certifi==2023.11.17
+﻿certifi==2023.11.17
 charset-normalizer==3.3.2
+colorama==0.4.6
 docopt==0.6.2
 idna==3.6
+iniconfig==2.0.0
+numpy==1.26.3
+packaging==23.2
 pipreqs==0.4.13
+pluggy==1.4.0
+pytest==8.0.0
 requests==2.31.0
 setuptools==69.0.3
 urllib3==2.1.0
