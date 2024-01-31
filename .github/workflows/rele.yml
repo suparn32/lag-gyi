@@ -11,10 +11,13 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v3 # Replace with the latest version that supports Node.js 20
+
+
 
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v3  # Replace with the latest version that supports Node.js 20
+
       with:
         python-version: 3.12.1
 
@@ -28,7 +31,7 @@ jobs:
 
     - name: Extract version number
       id: extract_version
-      run: echo "VERSION=$(echo $GITHUB_REF | sed 's/^refs\/tags\/v//; s/^v//')" >> $GITHUB_ENV
+      run: echo "VERSION=$(echo $GITHUB_REF | sed 's/^refs\/tags\/v//; s/^v// ')" >> $GITHUB_ENV
 
     - name: Create GitHub Release
       uses: actions/create-release@v1
