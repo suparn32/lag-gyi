@@ -35,4 +35,5 @@ jobs:
 
     - name: Run unit tests
       run: pytest
-           ls -R
+           find . -type f -name "*.whl" -o -name "*.tar.gz"  # Search for Python artifacts
+
