@@ -33,7 +33,7 @@ jobs:
         pip install -r requirements.txt
     - name: Run Add Operation
       run: |
-        echo -e "1\n4\n5\nyes\n" | python calculator_f.py
+        echo -e "1\n4\n5\n" | python calculator_f.py
       # The above echo command simulates user input: 1 (for add), 4 (first number), 4 (second number), and "yes" to continue.
     - name: Run Subtract Operation
       run: |
