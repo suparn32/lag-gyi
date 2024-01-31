@@ -33,7 +33,7 @@ jobs:
         pip install -r requirements.txt
     - name: Run Python Script
       run: 
-        python test_calculator.py
+        python calculator_f.py
 
     - name: Test with pytest
       run: |
