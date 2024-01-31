@@ -1,3 +1,4 @@
+name: Release and Extract the tag
 on:
   push:
     tags:
