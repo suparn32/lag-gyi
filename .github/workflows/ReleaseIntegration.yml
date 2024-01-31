@@ -16,5 +16,5 @@ jobs:
         draft: false
         prerelease: false
 env:
-        GITHUB_TOKEN: ${{ secrets.SPAT }}
+        GITHUB_TOKEN: ${{ secrets.APT }}
      
