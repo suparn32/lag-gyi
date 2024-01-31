@@ -1,0 +1,40 @@
+name: Release Workflow
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt  # Replace with your requirements file or other dependency setup
+
+    - name: Extract version from tag
+      run: |
+        TAG_NAME=$(git tag --points-at $GITHUB_SHA)
+        VERSION=$(echo $TAG_NAME | awk -F'v' '{print $2}')
+        echo "Extracted version: $VERSION"
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Create Release
+      uses: actions/create-release@v1
+      with:
+        tag_name: "refs/tags/v${{ env.VERSION }}"
+        release_name: "Release ${{ env.VERSION }}"
+        draft: false
+        prerelease: false
+        
+      env:
+        SPAT: ${{ secrets.SPAT }}
