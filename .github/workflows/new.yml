@@ -23,9 +23,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install bump2version
 
-      - name: Bump Version
-        run: |
-          bump2version --current-version 1.2.2 --new-version 1.2.3 --allow-dirty --tag
+
 
       - name: Create Release
         id: create_release
