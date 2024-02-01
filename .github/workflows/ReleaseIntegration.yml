@@ -1,20 +1,37 @@
-name: Release Workflow CI
-permissions:
-    contents: write
+name: Release Workflow
+
 on:
-  push: 
+  push:
+    branches:
+      - main
+
 jobs:
   release:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Create Release
-      uses: actions/create-release@v1
-      with:
-        APT: ${{ secrets.APT }}
-        tag_name: refs/tags/v1.2.3
-        release_name: Release1.2.3
-        draft: false
-        prerelease: false
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-     
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Bump Version
+        run: npm version 1.2.3
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          token: ${{ secrets.APT }}
+          tag_name: v1.2.3
+          release_name: Release 1.2.3
+
+
+
+
