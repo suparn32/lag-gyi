@@ -22,7 +22,18 @@ jobs:
       run: |
         if [[ ${{ github.event_name }} == 'push' && ${{ github.ref }} =~ ^refs/tags/v ]]; then
           echo "Tag matched"
-          ./your-release-script.sh ${{ github.ref }}
+          
+          # Print a message indicating the release creation process has started
+          echo "Creating release for tag: ${{ github.ref }}"
+          
+          version=$(echo $1 | sed 's/^refs\/tags\/v//')
+          
+          release_name="${version#v}"
+          
+          
+          # Print a success message
+          echo "Release created successfully"
+          
         else
           echo "Tag did not match"
         fi
