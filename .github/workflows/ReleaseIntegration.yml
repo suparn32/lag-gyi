@@ -13,10 +13,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Debug Event and Ref
+      run: |
+        echo "Event name: ${{ github.event_name }}"
+        echo "Ref: ${{ github.ref }}"
+
     - name: Run release script
       run: |
         if [[ ${{ github.event_name }} == 'push' && ${{ github.ref }} =~ ^refs/tags/v ]]; then
+          echo "Tag matched"
           ./your-release-script.sh ${{ github.ref }}
+        else
+          echo "Tag did not match"
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.APT }}
