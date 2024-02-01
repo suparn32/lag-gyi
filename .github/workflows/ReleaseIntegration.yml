@@ -1,0 +1,14 @@
+if [[ $# -ne 1 ]]; then
+    echo "Please pass a release version. i.e. $0 v1.2.3"
+    exit 1
+fi
+
+# Extract version without 'v' prefix
+version=$(echo $1 | sed 's/v//')
+
+git checkout -b releases/$version # If this branch already exists, omit the -b flag
+rm -rf venv  # Remove virtual environment
+pip install -r requirements.txt  # Install Python dependencies
+git add venv requirements.txt  # Add relevant files for commit
+git commit -m "Python dependencies for release $version"
+git push origin releases/$version
