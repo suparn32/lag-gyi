@@ -38,4 +38,4 @@ jobs:
           echo "Tag did not match"
         fi
       env:
-        GITHUB_TOKEN: ${{ secrets.APT }}
+        token: ${{ github.token }}
