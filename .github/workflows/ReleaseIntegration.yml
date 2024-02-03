@@ -1,41 +1,47 @@
-name: Your Workflow
+name: Release Pipeline A1
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*..'  # Trigger the workflow on version tags (e.g., v1.0.0)
+
+permissions:
+  contents: write
+  # Add other necessary permissions here, if needed
 
 jobs:
-  your-job-name:
+  build-and-release:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-    - name: Debug Event and Ref
-      run: |
-        echo "Event name: ${{ github.event_name }}"
-        echo "Ref: ${{ github.ref }}"
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'  # Use the version of Python you need
 
-    - name: Run release script
+    - name: Install dependencies
       run: |
-        if [[ ${{ github.event_name }} == 'push' && ${{ github.ref }} =~ ^refs/tags/v ]]; then
-          echo "Tag matched"
-          
-          # Print a message indicating the release creation process has started
-          echo "Creating release for tag: ${{ github.ref }}"
-          
-          version=$(echo $1 | sed 's/^refs\/tags\/v//')
-          
-          release_name="${version#v}"
-          
-          
-          # Print a success message
-          echo "Release created successfully"
-          
-        else
-          echo "Tag did not match"
-        fi
+        python -m pip install --upgrade pip
+        pip install pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Run tests
+      run: pytest
+
+    - name: Extract version from tag
+      id: get_version
+      run: echo "::set-output name=VERSION::${GITHUB_REF#refs/tags/v}"
+      shell: bash
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
       env:
-        token: ${{ github.token }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ steps.get_version.outputs.VERSION }}
+        draft: false
+        prerelease: false
